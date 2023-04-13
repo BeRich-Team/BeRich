@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var networkFetcher = NetworkFetcher(network: NetworkManager())
+
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -16,6 +18,11 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .onAppear {
+            networkFetcher.getTickers { binanceTickers in
+                print(binanceTickers!.symbols)
+            }
+        }
     }
 }
 
