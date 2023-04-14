@@ -11,6 +11,7 @@ struct TickerCellView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(ticker.title)
                         .font(.title2)
+                        .foregroundColor(.black)
                     Text(ticker.subTitle)
                         .font(Font.subheadline)
                         .foregroundColor(.gray500)
@@ -50,7 +51,11 @@ struct TickerCellView: View {
                 .stroke(Color.stroke, lineWidth: 1)
         )
         .addBorder(Color.stroke, width: 0.5, cornerRadius: 16)
-        .padding(.vertical, 4)
+        .shadow(color: .shadow,
+                radius: 8,
+                y: 4)
+        .padding(.bottom, 8)
+        .padding(.horizontal, 16)
         .background(Color.background)
     }
 }

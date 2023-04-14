@@ -6,15 +6,25 @@ struct ListScreen: View {
 
     var body: some View {
         NavigationStack {
-            List(tickers) { ticker in
-                TickerCellView(ticker: ticker)
-                    .listRowInsets(EdgeInsets(.zero))
-                    .listRowSeparator(.hidden)
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(tickers) { ticker in
+                        NavigationLink {
+                            DetailedTickerScreen(ticker: ticker)
+                        } label: {
+                            TickerCellView(ticker: ticker)
+                                .listRowInsets(EdgeInsets(.zero))
+                                .listRowSeparator(.hidden)
+                        }
+                    }
+                }
+                .padding(.top, 12)
             }
             .scrollContentBackground(.hidden)
             .background(Color.background)
             .navigationTitle(navigationTitle)
         }
+        .accentColor(.white)
     }
 }
 

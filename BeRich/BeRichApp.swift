@@ -10,6 +10,7 @@ struct BeRichApp: App {
                 print(binanceTikers!)
             })
             }
+            SplashView()
         }
     }
 }
