@@ -1,14 +1,8 @@
-//
-//  ContentView.swift
-//  BeRich
-//
-//  Created by Danila on 11.04.2023.
-//
 
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var networkFetcher = NetworkFetcher(network: NetworkManager())
+    @StateObject private var networkFetcher = TradingDataNetworkFetcher(request: NetworkService.request)
 
     var body: some View {
         VStack {

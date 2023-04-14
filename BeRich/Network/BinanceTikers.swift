@@ -1,24 +1,25 @@
-//
-//  BinanceTikers.swift
-//  BeRich
-//
-//  Created by Matvei Bykadorov on 13.04.2023.
-//
 
 import Foundation
 
 struct BinanceTikers: Decodable {
+    
+    struct Symbol: Decodable {
+        var symbol: String
+        var tradingSessionStatus: Status
+        
+        private enum CodingKeys: String, CodingKey {
+            case symbol, tradingSessionStatus = "status"
+        }
+    }
+    
+    enum Status: String, Decodable {
+        case noTrading = "BREAK"
+        case trading = "TRADING"
+    }
+    
     let timezone: String
     let serverTime: Int
-    let symbols: [Symbols]
+    let symbols: [Symbol]
 }
 
-struct Symbol: Decodable {
-    let symbol: String
-    let status: Status
-}
 
-enum Status: String, Decodable {
-    case noTrading = "BREAK"
-    case trading = "TRADING"
-}
