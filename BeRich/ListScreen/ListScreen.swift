@@ -3,7 +3,7 @@ import SwiftUI
 struct ListScreen: View {
     private let navigationTitle = "BeRich"
     @State private var tickers: [Ticker] = Fakes.tickers
-
+    @StateObject var tradingDataNetworkFetcher = TradingDataNetworkFetcher(request: NetworkService.request)
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -19,7 +19,10 @@ struct ListScreen: View {
                     }
                 }
                 .padding(.top, 12)
+            }.onAppear { tradingDataNetworkFetcher.getTickers(completion: { binanceTikers in
+                print(binanceTikers!)
             }
+            ) }
             .scrollContentBackground(.hidden)
             .background(Color.background)
             .navigationTitle(navigationTitle)
