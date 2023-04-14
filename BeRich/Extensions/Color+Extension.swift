@@ -10,4 +10,5 @@ extension Color {
     static let gray500 = Color("gray.500")
     static let greenMain = Color("green.main")
     static let redMain = Color("red.main")
+    static let shadow = Color("shadow")
 }
