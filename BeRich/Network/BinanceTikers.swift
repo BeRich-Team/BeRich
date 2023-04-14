@@ -13,7 +13,7 @@ struct BinanceTikers: Decodable {
     let symbols: [Symbols]
 }
 
-struct Symbols: Decodable {
+struct Symbol: Decodable {
     let symbol: String
     let status: Status
 }
