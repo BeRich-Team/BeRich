@@ -19,10 +19,7 @@ struct ListScreen: View {
                     }
                 }
                 .padding(.top, 12)
-            }.onAppear { tradingDataNetworkFetcher.getTickers(completion: { binanceTikers in
-                print(binanceTikers!)
             }
-            ) }
             .scrollContentBackground(.hidden)
             .background(Color.background)
             .navigationTitle(navigationTitle)

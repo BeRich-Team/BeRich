@@ -4,11 +4,12 @@ import Foundation
 typealias NetworkRequest = (URL, @escaping (Result<Data, NetworkError>) -> Void) -> Void
 
 enum NetworkService {
-    static func request(_ path: URL, _ completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    static func request(_ url: URL, _ completion: @escaping (Result<Data, NetworkError>) -> Void) {
         let session = URLSession(configuration: .default)
-        session.dataTask(with: URLRequest(url: path)) { data, _, error in
+        session.dataTask(with: URLRequest(url: url)) { data, _, error in
             DispatchQueue.main.async {
-                guard error == nil, let data = data else {
+                guard error == nil, let data else {
+                    print(error as Any)
                     completion(.failure(.badResponse))
                     return
                 }

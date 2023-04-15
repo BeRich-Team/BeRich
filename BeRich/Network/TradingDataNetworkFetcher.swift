@@ -1,11 +1,11 @@
 
 import Foundation
 
-protocol NetworkFetching {
+protocol TradingDataNetworkFetching {
     func getTickers(completion: @escaping (BinanceTikers?) -> Void)
 }
 
-final class TradingDataNetworkFetcher: NetworkFetching, ObservableObject {
+final class TradingDataNetworkFetcher: TradingDataNetworkFetching, ObservableObject {
     private let request: NetworkRequest
 
     init(request: @escaping NetworkRequest) {
@@ -13,7 +13,7 @@ final class TradingDataNetworkFetcher: NetworkFetching, ObservableObject {
     }
 
     func getTickers(completion: @escaping (BinanceTikers?) -> Void) {
-        guard let url = URL(string: Exchange.Binance.RequestType.exchangeInfo.rawValue) else { return completion(nil) }
+        guard let url = url(scheme: BinanceApi.sceme, host: BinanceApi.host, path: BinanceApi.exchangeInfo) else { return completion(nil) }
         request(url) { data in
             switch data {
             case let .success(data):
@@ -22,9 +22,11 @@ final class TradingDataNetworkFetcher: NetworkFetching, ObservableObject {
                     completion(binanceTickers)
                 } catch {
                     print(error)
+                    completion(nil)
                 }
             case let .failure(error):
                 print(error)
+                completion(nil)
             }
         }
     }
@@ -36,14 +38,10 @@ private func decodeJSON<T: Decodable>(type: T.Type, from data: Data) throws -> T
     return response
 }
 
-enum Exchange {
-    enum Binance {
-        enum RequestType: String {
-            case exchangeInfo = "https://data.binance.com/api/v3/exchangeInfo"
-        }
-    }
-
-    enum Moex {
-        enum RequestType {}
-    }
+private func url(scheme: String, host: String, path: String) -> URL? {
+    var components = URLComponents()
+    components.scheme = scheme
+    components.host = host
+    components.path = path
+    return components.url
 }

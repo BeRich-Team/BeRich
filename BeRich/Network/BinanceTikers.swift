@@ -7,7 +7,8 @@ struct BinanceTikers: Decodable {
         var tradingSessionStatus: Status
 
         private enum CodingKeys: String, CodingKey {
-            case symbol, tradingSessionStatus = "status"
+            case symbol
+            case tradingSessionStatus = "status"
         }
     }
 
