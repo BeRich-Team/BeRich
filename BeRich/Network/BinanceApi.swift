@@ -1,16 +1,17 @@
 import Foundation
 enum BinanceApi {
-    static let scheme = "https"
-    static let host = "data.binance.com"
     enum Method: String {
         case exchangeInfo = "/api/v3/exchangeInfo"
 
         func url() -> URL? {
             var components = URLComponents()
-            components.scheme = BinanceApi.scheme
-            components.host = BinanceApi.host
+            components.scheme = scheme
+            components.host = host
             components.path = rawValue
             return components.url
         }
     }
 }
+
+private let scheme = "https"
+private let host = "data.binance.com"
