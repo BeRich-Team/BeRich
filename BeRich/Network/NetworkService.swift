@@ -9,7 +9,7 @@ enum NetworkService {
         session.dataTask(with: URLRequest(url: url)) { data, _, error in
             DispatchQueue.main.async {
                 guard error == nil, let data else {
-                    print(error as Any)
+                    print("Network request failed: \(error?.localizedDescription ?? "")")
                     completion(.failure(.badResponse))
                     return
                 }

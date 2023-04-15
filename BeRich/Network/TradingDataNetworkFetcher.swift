@@ -13,7 +13,7 @@ final class TradingDataNetworkFetcher: TradingDataNetworkFetching, ObservableObj
     }
 
     func getTickers(completion: @escaping (BinanceTikers?) -> Void) {
-        guard let url = url(scheme: BinanceApi.sceme, host: BinanceApi.host, path: BinanceApi.exchangeInfo) else { return completion(nil) }
+        guard let url = BinanceApi.Method.exchangeInfo.url() else { return completion(nil) }
         request(url) { data in
             switch data {
             case let .success(data):
@@ -36,12 +36,4 @@ private func decodeJSON<T: Decodable>(type: T.Type, from data: Data) throws -> T
     let decoder = JSONDecoder()
     let response = try decoder.decode(type, from: data)
     return response
-}
-
-private func url(scheme: String, host: String, path: String) -> URL? {
-    var components = URLComponents()
-    components.scheme = scheme
-    components.host = host
-    components.path = path
-    return components.url
 }
