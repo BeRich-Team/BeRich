@@ -81,3 +81,14 @@ targets:
         exit 0
       name: Lint
       basedOnDependencyAnalysis: NO
+
+  BeRichTests:
+    type: bundle.unit-test
+    platform: iOS
+    scheme:
+      testTargets:
+      - BeRichTests
+    sources:
+      - path: BeRichTests
+    dependencies:
+      - target: BeRich
