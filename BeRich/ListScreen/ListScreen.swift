@@ -85,6 +85,6 @@ private let tryAgain = "Попробовать ещё раз"
 
 struct ListScreen_Previews: PreviewProvider {
     static var previews: some View {
-        ListScreen(viewModel: ListScreenViewModel())
+        ListScreen(viewModel: Fakes.makeListScreenViewModel())
     }
 }

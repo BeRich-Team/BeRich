@@ -170,4 +170,16 @@ enum Fakes {
         }
         return stocks
     }
+
+    static func makeListScreenViewModel() -> ListScreenViewModel {
+        ListScreenViewModel(useCase: ListScreenUseCaseFake())
+    }
+}
+
+extension Fakes {
+    private class ListScreenUseCaseFake: ListScreenUseCase {
+        func getTickers() async throws -> [Ticker] {
+            tickers
+        }
+    }
 }

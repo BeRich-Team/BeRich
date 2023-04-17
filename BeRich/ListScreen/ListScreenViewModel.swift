@@ -5,14 +5,17 @@ final class ListScreenViewModel: ObservableObject {
     @Published private(set) var state: State = .initial
 
     private let input = PassthroughSubject<Event, Never>()
+    private let useCase: ListScreenUseCase
 
-    init() {
+    init(useCase: ListScreenUseCase) {
+        self.useCase = useCase
+
         Publishers.system(
             initial: state,
             reduce: Self.reduce,
             scheduler: RunLoop.main,
             feedbacks: [
-                Self.loading(),
+                Self.loading(useCase: useCase),
                 Self.userInput(input: input.eraseToAnyPublisher()),
             ]
         )
@@ -75,15 +78,22 @@ extension ListScreenViewModel {
         }
     }
 
-    static func loading() -> Feedback<State, Event> {
+    static func loading(useCase: ListScreenUseCase) -> Feedback<State, Event> {
         Feedback { (state: State) -> AnyPublisher<Event, Never> in
             guard case .loading = state else { return Empty().eraseToAnyPublisher() }
 
-            #warning("TODO: remove")
-            guard let result = [Event.didLoadTickers(Fakes.tickers), Event.failedLoadTickers].randomElement() else { return Empty().eraseToAnyPublisher() }
-            return Just(result)
-                .delay(for: 1, scheduler: RunLoop.main)
-                .eraseToAnyPublisher()
+            return Future { promise in
+                Task.detached {
+                    do {
+                        let tickers: [Ticker] = try await useCase.getTickers()
+                        let event = Event.didLoadTickers(tickers)
+                        promise(.success(event))
+                    } catch {
+                        promise(.success(Event.failedLoadTickers))
+                    }
+                }
+            }
+            .eraseToAnyPublisher()
         }
     }
 

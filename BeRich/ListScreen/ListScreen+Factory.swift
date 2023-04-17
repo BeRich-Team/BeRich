@@ -2,6 +2,12 @@ import SwiftUI
 
 extension ListScreen {
     static func make() -> some View {
-        Self(viewModel: ListScreenViewModel())
+        ListScreen(
+            viewModel: ListScreenViewModel(
+                useCase: ListScreenUseCaseImpl(
+                    fetcher: TradingDataNetworkFetcher()
+                )
+            )
+        )
     }
 }
