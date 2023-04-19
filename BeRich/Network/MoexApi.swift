@@ -12,9 +12,7 @@ enum MoexApi {
             } else {
                 components.path = rawValue
             }
-            if let queryItems {
-                components.queryItems = queryItems
-            }
+            components.queryItems = queryItems
             return components.url
         }
     }
